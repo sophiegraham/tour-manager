@@ -24,7 +24,7 @@ activities | array of string activites that will happen during the show
 launchDate | date tour will start. default to now
 stops | array of stop objects, see stop schema below
 
-## Sub Documents (stops)
+## Sub Objects (stops)
 
 In addition there are the following APIs for managing tour stops:
 
