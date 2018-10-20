@@ -1,3 +1,4 @@
+require('dotenv').config();
 const weatherLocation = require('../../lib/util/weatherLocation');
 describe('weather location', () => {
     it('calls no error when passed a good zip code', (done) => {
@@ -6,7 +7,7 @@ describe('weather location', () => {
         };
 
         const weather = { condition: 'good' };
-        const location = { city: 'Portland' };
+        const location = { city: 'portland' };
         
         const api = () => {
             return Promise.resolve({ weather, location });

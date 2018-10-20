@@ -1,8 +1,9 @@
+require('dotenv').config();
 const { dropCollection } = require('./db');
 const request = require('supertest');
 const app = require('../../lib/app');
-const Chance = require('chance');
-const chance = new Chance();
+// const Chance = require('chance');
+// const chance = new Chance();
 
 describe('tour pub/sub API', () => {
     let tours = Array.apply(null, { length: 1 }).map(() => {
@@ -58,6 +59,26 @@ describe('tour pub/sub API', () => {
             .get(`/api/tours/${createdTours[0]._id}`)
             .then(res => {
                 expect(res.body).toEqual(createdTours[0]);
+            });
+    });
+
+    it.skip('posts a new stop on the tour', () => {
+        return request(app)
+            .post(`/api/tours/${createdTours[0]._id}/stops`)
+            .send({ zip: '97229' })
+            .then(res => {
+                expect(res.body.stops).toEqual([{
+                    _id: expect.any(String),
+                    location: {
+                        city: 'portland',
+                        state: 'OR',
+                        zip: '97229'
+                    },
+                    weather: {
+                        temperature: expect.any(String),
+                        condition: expect.any(String)
+                    }
+                }]);
             });
     });
 });
