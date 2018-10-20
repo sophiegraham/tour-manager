@@ -1,13 +1,14 @@
 const { dropCollection } = require('./db');
 const request = require('supertest');
 const app = require('../../lib/app');
+const Chance = require('chance');
+const chance = new Chance();
 
 describe('tour pub/sub API', () => {
-    let tours = Array.apply(null, { length: 30 }).map(() => {
+    let tours = Array.apply(null, { length: 1 }).map(() => {
         return {
             title: 'best circus',
             activities: ['juggling', 'trapeze', 'animal abuse'],
-            launchDate: new Date(),
             stops:[]
         };
     });
@@ -30,16 +31,25 @@ describe('tour pub/sub API', () => {
         });
     });
 
-    it.skip('creates a tour on post', () => {
+    it('creates a tour on post', () => {
         return request(app)
             .post('/api/tours')
-            .send(createdTours[0])
+            .send(tours[0])
             .then(res => {
                 expect(res.body).toEqual({
                     _id: expect.any(String),
                     __v: expect.any(Number),
-                    ...createdTours[0]
+                    launchDate: expect.any(String),
+                    ...tours[0]
                 });
+            });
+    });
+
+    it('gets all tours', () => {
+        return request(app)
+            .get('/api/tours')
+            .then(res => {
+                expect(res.body).toEqual(createdTours);
             });
     });
 });
