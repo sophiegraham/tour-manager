@@ -52,4 +52,12 @@ describe('tour pub/sub API', () => {
                 expect(res.body).toEqual(createdTours);
             });
     });
+
+    it('gets tour by id', () => {
+        return request(app)
+            .get(`/api/tours/${createdTours[0]._id}`)
+            .then(res => {
+                expect(res.body).toEqual(createdTours[0]);
+            });
+    });
 });
